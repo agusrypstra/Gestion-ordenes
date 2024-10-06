@@ -1,36 +1,91 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import axios from 'axios';
+import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-type OrdenTipo = 'Reclamo' | 'Instalación nueva' | 'Retiro';
+import { Order } from './interfaces/Order';
+import { Cliente } from './interfaces/Cliente';
+import { TipoOrden } from './interfaces/TipoOrden';
 
 const FormularioOrden: React.FC = () => {
-  const [nombreCliente, setNombreCliente] = useState<string>('');
-  const [descripcion, setDescripcion] = useState<string>('');
-  const [tipoOrden, setTipoOrden] = useState<OrdenTipo>('Reclamo');
+  
+  const [clienteId, setClienteId] = useState<number>(0);
+  const [descripcion, setDescripcion] = useState<string>("");
+  const [fechaCreacion, setFechaCreacion] = useState<string>("");  
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    const orden = {
-      nombreCliente,
-      descripcion,
-      tipoOrden,
+  const[clientes,setClientes] = useState<Cliente[]>([])
+  const[ordersType,setOrdersType] = useState<TipoOrden[]>([])
+
+  const[idTipoOrder,setSelectedOrderType] = useState<number | 0>(0)
+  const[selectedClient,setSelectedClient] = useState<number | 0>(0);
+
+  useEffect(() => {
+    const fetchClientes = async ()=>{
+      try {
+        const response = await axios.get('http://localhost:8080/api/clients')
+        setClientes(response.data);
+      } catch (error) {
+        console.log("Error: " + error)
+      }
     };
-    
-    console.log('Orden enviada:', orden);
-  };
+    fetchClientes();
+  },[]);
 
+  useEffect(() => {
+    // Fetch para obtener los tipos de orden
+    const fetchTiposOrden = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/order-type");
+        setOrdersType(response.data);
+      } catch (error) {
+        console.error('Error al obtener los tipos de orden:', error);
+      }
+    };
+    fetchTiposOrden();
+  },[]);
+
+// Mapeo de clientes a opciones para el select
+const clienteOptions = clientes.map(cliente => ({
+  value: cliente.id,
+  label: `${cliente.nombre} ${cliente.apellido}`
+}));
+const handleClienteChange = (selectedOption: any) => {
+  setSelectedClient(selectedOption ? selectedOption.value : null);
+  setClienteId(selectedClient)
+};
+const ordersOptions = ordersType.map(orderType => ({
+  value: orderType.id,
+  label: `${orderType.tipoNombre}`
+}));
+const handleTypeChange = (selectedOption:any)=>{
+  setSelectedOrderType(selectedOption ? selectedOption.value : null);
+}
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setFechaCreacion(new Date().toISOString());
+    const nuevaOrden: Order = {
+      clienteId, // Asegúrate de que clienteId esté definido y sea del tipo correcto
+      descripcion, // Asegúrate de que descripción esté definida
+      idTipoOrder, // Asegúrate de que idTipoOrden esté definido
+      fechaCreacion, // Asegúrate de que fechaCreacion esté definido y sea un string en formato ISO
+      idUsuarioCreador :0// Asegúrate de que idUsuarioCreador esté definido
+  };
+  try {
+    const response = await axios.post('/api/orders', nuevaOrden);
+    console.log('Orden creada:', response.data);
+  } catch (error) {
+    console.error('Error al crear la orden:', error);
+  }
+  };
   return (
     <form onSubmit={handleSubmit} className="container mt-4">
       {/* Campo para el nombre del cliente */}
       <div className="mb-3">
-        <label htmlFor="nombreCliente" className="form-label">Nombre del Cliente:</label>
-        <input
-          type="text"
-          id="nombreCliente"
-          className="form-control"
-          value={nombreCliente}
-          onChange={(e) => setNombreCliente(e.target.value)}
-          required
+        <label htmlFor="cliente">Cliente</label>
+        <Select 
+          options={clienteOptions}
+          onChange={handleClienteChange}
+          placeholder="Seleccionar cliente"
         />
       </div>
 
@@ -49,17 +104,12 @@ const FormularioOrden: React.FC = () => {
 
       {/* Selección del tipo de orden */}
       <div className="mb-3">
-        <label htmlFor="tipoOrden" className="form-label">Tipo de Orden:</label>
-        <select
-          id="tipoOrden"
-          className="form-select"
-          value={tipoOrden}
-          onChange={(e) => setTipoOrden(e.target.value as OrdenTipo)}
-        >
-          <option value="Reclamo">Reclamo</option>
-          <option value="Instalación nueva">Instalación nueva</option>
-          <option value="Retiro">Retiro</option>
-        </select>
+        <label htmlFor="tipoOrden">Tipo de Orden:</label>
+        <Select
+          options={ordersOptions}
+          onChange={handleTypeChange}
+          placeholder={"Seleccionar tipo de orden"}
+        />
       </div>
 
       {/* Botón de envío */}
