@@ -4,10 +4,13 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tipo_cliente")
-public class TipoCliente {
+public class TipoClienteModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    public TipoClienteModel() {
+    }
     @Column(name="nombre_tipo",nullable = false)
     private String nombre_tipo;
 

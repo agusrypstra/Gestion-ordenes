@@ -32,7 +32,7 @@ public class ClienteModel {
 
     @ManyToOne
     @JoinColumn(name = "tipo_cliente_id", nullable = false)
-    private TipoCliente tipoCliente; // Relación con el tipo de cliente
+    private TipoClienteModel tipoClienteModel; // Relación con el tipo de cliente
 
     @Column(nullable = false)
     private String telefonoContacto;
@@ -86,12 +86,12 @@ public class ClienteModel {
         this.direccionIp = direccionIp;
     }
 
-    public TipoCliente getTipoCliente() {
-        return tipoCliente;
+    public TipoClienteModel getTipoCliente() {
+        return tipoClienteModel;
     }
 
-    public void setTipoCliente(TipoCliente tipoCliente) {
-        this.tipoCliente = tipoCliente;
+    public void setTipoCliente(TipoClienteModel tipoClienteModel) {
+        this.tipoClienteModel = tipoClienteModel;
     }
 
     public String getTelefonoContacto() {

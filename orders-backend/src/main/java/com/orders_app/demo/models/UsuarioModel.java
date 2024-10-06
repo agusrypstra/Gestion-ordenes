@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Table(name = "usuarios")
 public class UsuarioModel {
 
+    public UsuarioModel() {
+    }
     @Autowired
+
     public UsuarioModel(Long id) {
         this.id = id;
     }

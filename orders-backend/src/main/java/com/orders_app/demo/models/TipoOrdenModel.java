@@ -1,14 +1,23 @@
 package com.orders_app.demo.models;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-
+@Data
 @Entity
 @Table(name = "tipo_orden")
 public class TipoOrdenModel {
     @Autowired
+    public TipoOrdenModel() {
+    }
+
     public TipoOrdenModel(Long id) {
         this.id = id;
+    }
+
+    public TipoOrdenModel(Long id, String nombre_tipo) {
+        this.id = id;
+        this.nombre_tipo = nombre_tipo;
     }
 
     @Id
