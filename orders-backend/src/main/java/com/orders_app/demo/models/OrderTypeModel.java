@@ -6,16 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Data
 @Entity
 @Table(name = "tipo_orden")
-public class TipoOrdenModel {
+public class OrderTypeModel {
     @Autowired
-    public TipoOrdenModel() {
+    public OrderTypeModel() {
     }
 
-    public TipoOrdenModel(Long id) {
+    public OrderTypeModel(Long id) {
         this.id = id;
     }
 
-    public TipoOrdenModel(Long id, String nombre_tipo) {
+    public OrderTypeModel(Long id, String nombre_tipo) {
         this.id = id;
         this.nombre_tipo = nombre_tipo;
     }

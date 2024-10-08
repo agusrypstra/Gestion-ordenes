@@ -23,6 +23,8 @@ const FormularioOrden: React.FC = () => {
       try {
         const response = await axios.get('http://localhost:8080/api/clients')
         setClientes(response.data);
+        console.log(response.data)
+
       } catch (error) {
         console.log("Error: " + error)
       }
@@ -36,6 +38,7 @@ const FormularioOrden: React.FC = () => {
       try {
         const response = await axios.get("http://localhost:8080/api/order-type");
         setOrdersType(response.data);
+        console.log(response.data)
       } catch (error) {
         console.error('Error al obtener los tipos de orden:', error);
       }
@@ -54,7 +57,7 @@ const handleClienteChange = (selectedOption: any) => {
 };
 const ordersOptions = ordersType.map(orderType => ({
   value: orderType.id,
-  label: `${orderType.tipoNombre}`
+  label: `${orderType.nombre_tipo}`
 }));
 const handleTypeChange = (selectedOption:any)=>{
   setSelectedOrderType(selectedOption ? selectedOption.value : null);
@@ -64,18 +67,19 @@ const handleTypeChange = (selectedOption:any)=>{
     event.preventDefault();
     setFechaCreacion(new Date().toISOString());
     const nuevaOrden: Order = {
-      clienteId, // Asegúrate de que clienteId esté definido y sea del tipo correcto
-      descripcion, // Asegúrate de que descripción esté definida
-      idTipoOrder, // Asegúrate de que idTipoOrden esté definido
-      fechaCreacion, // Asegúrate de que fechaCreacion esté definido y sea un string en formato ISO
-      idUsuarioCreador :0// Asegúrate de que idUsuarioCreador esté definido
-  };
-  try {
-    const response = await axios.post('/api/orders', nuevaOrden);
-    console.log('Orden creada:', response.data);
-  } catch (error) {
-    console.error('Error al crear la orden:', error);
-  }
+      "clienteId": 1,
+      "idTipoOrden":idTipoOrder,
+      "descripcion": "Nueva Orden",
+      "fechaCreacion": fechaCreacion,
+      "idUsuarioCreador":1
+    };
+    console.log(nuevaOrden)
+    try {
+      const response = await axios.post('http://localhost:8080/api/orders', nuevaOrden);
+      console.log('Orden creada:', response.data);
+    } catch (error) {
+      console.error('Error al crear la orden:', error);
+    }
   };
   return (
     <form onSubmit={handleSubmit} className="container mt-4">

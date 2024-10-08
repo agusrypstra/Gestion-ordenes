@@ -1,6 +1,6 @@
-package com.orders_app.demo.services;
+package com.orders_app.demo.services.order;
 
-import com.orders_app.demo.DTO.OrderDTO;
+import com.orders_app.demo.DTO.order.OrderDTO;
 import com.orders_app.demo.mappers.OrderMapper;
 import com.orders_app.demo.models.OrderModel;
 import com.orders_app.demo.repositories.OrderRepository;

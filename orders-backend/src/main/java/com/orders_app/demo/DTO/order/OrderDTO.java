@@ -1,4 +1,4 @@
-package com.orders_app.demo.DTO;
+package com.orders_app.demo.DTO.order;
 
 import java.time.LocalDateTime;
 

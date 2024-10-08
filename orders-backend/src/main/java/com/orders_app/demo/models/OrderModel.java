@@ -15,14 +15,14 @@ public class OrderModel {
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
-    private ClienteModel cliente;
+    private ClientModel cliente;
 
     @Column(length = 255)
     private String descripcion;
 
     @ManyToOne
     @JoinColumn(name = "tipo_orden_id", nullable = false)
-    private TipoOrdenModel tipoOrden;
+    private OrderTypeModel tipoOrden;
 
     @Column(nullable = false)
     private LocalDateTime fechaCreacion;
@@ -47,7 +47,7 @@ public class OrderModel {
         return descripcion;
     }
 
-    public ClienteModel getCliente() {
+    public ClientModel getCliente() {
         return cliente;
     }
 
@@ -70,11 +70,11 @@ public class OrderModel {
         this.descripcion = descripcion;
     }
 
-    public TipoOrdenModel getTipoOrden() {
+    public OrderTypeModel getTipoOrden() {
         return tipoOrden;
     }
 
-    public void setTipoOrden(TipoOrdenModel tipoOrden) {
+    public void setTipoOrden(OrderTypeModel tipoOrden) {
         this.tipoOrden = tipoOrden;
     }
 
@@ -106,7 +106,7 @@ public class OrderModel {
         this.usuarioTomo = usuarioTomo;
     }
 
-    public void setCliente(ClienteModel clienteModel) {
-        this.cliente = clienteModel;
+    public void setCliente(ClientModel clientModel) {
+        this.cliente = clientModel;
     }
 }
