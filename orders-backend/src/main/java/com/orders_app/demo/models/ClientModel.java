@@ -4,11 +4,11 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "clientes")
-public class ClienteModel {
-    public ClienteModel() {
+public class ClientModel {
+    public ClientModel() {
     }
 
-    public ClienteModel(Long id) {
+    public ClientModel(Long id) {
         this.id = id;
     }
     @Id
