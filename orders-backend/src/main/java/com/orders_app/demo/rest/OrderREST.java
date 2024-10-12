@@ -1,19 +1,43 @@
-package com.orders_app.demo.DTO.order;
+package com.orders_app.demo.rest;
 
 import com.orders_app.demo.models.OrderStatus;
 
 import java.time.LocalDateTime;
 
-public class OrderDTO {
+public class OrderREST {
     private Long id;
     private Long clienteId;  // ID del cliente
     private Long idTipoOrden;  // ID del cliente
     private String descripcion;
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaToma;  // Puede ser nulo
-    private LocalDateTime fechaFinalizacion;  // Puede ser nulo
     private Long idUsuarioCreador;  // Puede ser nulo
     private OrderStatus status;
+    private LocalDateTime fechaToma;
+    private LocalDateTime fechaFinalizacion;
+
+    public LocalDateTime getFechaToma() {
+        return fechaToma;
+    }
+
+    public void setFechaToma(LocalDateTime fechaToma) {
+        this.fechaToma = fechaToma;
+    }
+
+    public LocalDateTime getFechaFinalizacion() {
+        return fechaFinalizacion;
+    }
+
+    public void setFechaFinalizacion(LocalDateTime fechaFinalizacion) {
+        this.fechaFinalizacion = fechaFinalizacion;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
     public Long getIdUsuarioCreador() {
         return idUsuarioCreador;
     }
@@ -41,23 +65,9 @@ public class OrderDTO {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
-    public void setFechaCreacion(LocalDateTime fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    public void setFechaToma(LocalDateTime fechaToma) {
-        this.fechaToma = fechaToma;
-    }
-
-    public void setFechaFinalizacion(LocalDateTime fechaFinalizacion) {
-        this.fechaFinalizacion = fechaFinalizacion;
-    }
-
     public Long getId() {
         return id;
     }
-
     public Long getClienteId() {
         return clienteId;
     }
@@ -65,19 +75,4 @@ public class OrderDTO {
     public String getDescripcion() {
         return descripcion;
     }
-
-    public LocalDateTime getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public LocalDateTime getFechaToma() {
-        return fechaToma;
-    }
-
-    public LocalDateTime getFechaFinalizacion() {
-        return fechaFinalizacion;
-    }
-
-
-    // Getters y setters
 }

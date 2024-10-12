@@ -4,12 +4,14 @@ package com.orders_app.demo.controllers.order;
 import com.orders_app.demo.DTO.order.OrderDTO;
 import com.orders_app.demo.mappers.OrderMapper;
 import com.orders_app.demo.models.OrderModel;
+import com.orders_app.demo.rest.OrderREST;
 import com.orders_app.demo.services.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -24,9 +26,8 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
     @PostMapping
-    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderDTO orderDTO) {
-        OrderModel order = OrderMapper.toEntity(orderDTO);
-        OrderModel savedOrder = orderService.saveOrder(order);
+    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderREST orderREST) {
+        OrderModel savedOrder = orderService.saveOrder(orderREST);
         OrderDTO savedOrderDTO = OrderMapper.toDTO(savedOrder);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedOrderDTO);
     }
@@ -38,5 +39,13 @@ public class OrderController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found.");
         }
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderModel> updateOrder(
+            @PathVariable Long id,
+            @RequestBody OrderREST orderREST) {
+        OrderModel updatedOrder = orderService.updateOrder(id, orderREST);
+        return ResponseEntity.ok(updatedOrder);
+
     }
 }

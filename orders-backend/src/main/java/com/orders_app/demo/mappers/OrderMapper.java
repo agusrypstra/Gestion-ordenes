@@ -5,6 +5,7 @@ import com.orders_app.demo.models.ClientModel;
 import com.orders_app.demo.models.OrderModel;
 import com.orders_app.demo.models.OrderTypeModel;
 import com.orders_app.demo.models.UsuarioModel;
+import com.orders_app.demo.rest.OrderREST;
 
 public class OrderMapper {
 
@@ -18,7 +19,6 @@ public class OrderMapper {
         dto.setIdUsuarioCreador(order.getUsuarioCreador().getId());
         return dto;
     }
-
     public static OrderModel toEntity(OrderDTO dto) {
         OrderModel order = new OrderModel();
         order.setId(dto.getId());
@@ -27,6 +27,16 @@ public class OrderMapper {
         order.setFechaCreacion(dto.getFechaCreacion());
         order.setTipoOrden(new OrderTypeModel(dto.getIdTipoOrden()));
         order.setUsuarioCreador(new UsuarioModel(dto.getIdUsuarioCreador()));
+        return order;
+    }
+    public static OrderModel toEntity(OrderREST rest) {
+        OrderModel order = new OrderModel();
+        order.setId(rest.getId());
+        order.setCliente(new ClientModel(rest.getClienteId()));  // Supongamos que tienes un constructor adecuado
+        order.setDescripcion(rest.getDescripcion());
+        order.setTipoOrden(new OrderTypeModel(rest.getIdTipoOrden()));
+        order.setUsuarioCreador(new UsuarioModel(rest.getIdUsuarioCreador()));
+        order.setStatus(rest.getStatus());
         return order;
     }
 }

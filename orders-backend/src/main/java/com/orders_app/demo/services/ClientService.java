@@ -1,6 +1,5 @@
 package com.orders_app.demo.services;
 
-import com.orders_app.demo.DTO.client.CreateClientDTO;
 import com.orders_app.demo.DTO.client.ResponseClientDTO;
 import com.orders_app.demo.mappers.ClientMapper;
 import com.orders_app.demo.repositories.ClientRepository;

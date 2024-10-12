@@ -1,14 +1,14 @@
-package com.orders_app.demo.DTO.client;
+package com.orders_app.demo.rest;
 
 import com.orders_app.demo.models.TipoClienteModel;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CreateClientDTO {
-    public CreateClientDTO(){
+public class ClientREST {
+    public ClientREST(){
 
     }
-    public CreateClientDTO(Long id){
+    public ClientREST(Long id){
 
     }
     private Long id;

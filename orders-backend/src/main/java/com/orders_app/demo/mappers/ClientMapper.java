@@ -1,6 +1,6 @@
 package com.orders_app.demo.mappers;
 
-import com.orders_app.demo.DTO.client.CreateClientDTO;
+import com.orders_app.demo.rest.ClientREST;
 import com.orders_app.demo.DTO.client.ResponseClientDTO;
 import com.orders_app.demo.models.ClientModel;
 import org.springframework.stereotype.Component;
@@ -26,39 +26,39 @@ public class ClientMapper {
     }
 
     // Método para convertir ClientModel a ClientDTO
-    public static CreateClientDTO toCreateDTO(ClientModel clientModel) {
+    public static ClientREST toCreateDTO(ClientModel clientModel) {
         if (clientModel == null) {
             return null;
         }
 
-        CreateClientDTO createClientDTO = new CreateClientDTO();
-        createClientDTO.setId(clientModel.getId());
-        createClientDTO.setApellido(clientModel.getApellido());
-        createClientDTO.setNombre(clientModel.getNombre());
-        createClientDTO.setDni(clientModel.getDni());
-        createClientDTO.setDomicilio(clientModel.getDomicilio());
-        createClientDTO.setDireccionIp(clientModel.getDireccionIp());
-        createClientDTO.setTipoClienteModel(clientModel.getTipoCliente());
-        createClientDTO.setTelefonoContacto(clientModel.getTelefonoContacto());
+        ClientREST clientREST = new ClientREST();
+        clientREST.setId(clientModel.getId());
+        clientREST.setApellido(clientModel.getApellido());
+        clientREST.setNombre(clientModel.getNombre());
+        clientREST.setDni(clientModel.getDni());
+        clientREST.setDomicilio(clientModel.getDomicilio());
+        clientREST.setDireccionIp(clientModel.getDireccionIp());
+        clientREST.setTipoClienteModel(clientModel.getTipoCliente());
+        clientREST.setTelefonoContacto(clientModel.getTelefonoContacto());
 
-        return createClientDTO;
+        return clientREST;
     }
 
     // Método para convertir ClientDTO a ClientModel
-    public ClientModel toModel(CreateClientDTO createClientDTO) {
-        if (createClientDTO == null) {
+    public ClientModel toModel(ClientREST clientREST) {
+        if (clientREST == null) {
             return null;
         }
 
         ClientModel clientModel = new ClientModel();
-        clientModel.setId(createClientDTO.getId());
-        clientModel.setApellido(createClientDTO.getApellido());
-        clientModel.setNombre(createClientDTO.getNombre());
-        clientModel.setDni(createClientDTO.getDni());
-        clientModel.setDomicilio(createClientDTO.getDomicilio());
-        clientModel.setDireccionIp(createClientDTO.getDireccionIp());
-        clientModel.setTipoCliente(createClientDTO.getTipoClienteModel());
-        clientModel.setTelefonoContacto(createClientDTO.getTelefonoContacto());
+        clientModel.setId(clientREST.getId());
+        clientModel.setApellido(clientREST.getApellido());
+        clientModel.setNombre(clientREST.getNombre());
+        clientModel.setDni(clientREST.getDni());
+        clientModel.setDomicilio(clientREST.getDomicilio());
+        clientModel.setDireccionIp(clientREST.getDireccionIp());
+        clientModel.setTipoCliente(clientREST.getTipoClienteModel());
+        clientModel.setTelefonoContacto(clientREST.getTelefonoContacto());
 
         return clientModel;
     }

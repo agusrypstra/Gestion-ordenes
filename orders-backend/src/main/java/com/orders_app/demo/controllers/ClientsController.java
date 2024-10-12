@@ -1,6 +1,5 @@
 package com.orders_app.demo.controllers;
 
-import com.orders_app.demo.DTO.client.CreateClientDTO;
 import com.orders_app.demo.DTO.client.ResponseClientDTO;
 import com.orders_app.demo.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;

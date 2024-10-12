@@ -62,6 +62,16 @@ public class OrderModel {
     public LocalDateTime getFechaFinalizacion() {
         return fechaFinalizacion;
     }
+    @Enumerated(EnumType.STRING)  // Usa EnumType.STRING para almacenar el nombre del enum en la base de datos
+    private OrderStatus status;
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
 
     public void setId(Long id) {
         this.id = id;
