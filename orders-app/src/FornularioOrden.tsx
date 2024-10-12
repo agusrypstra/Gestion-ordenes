@@ -6,18 +6,26 @@ import { Order } from './interfaces/Order';
 import { Cliente } from './interfaces/Cliente';
 import { TipoOrden } from './interfaces/TipoOrden';
 
-const FormularioOrden: React.FC = () => {
+interface OrderFormProps {
+  orderId?: number;  // Será undefined si es una nueva orden
+}
+
+const FormularioOrden: React.FC<OrderFormProps> = ({orderId}) => {
+
+
   
-  const [clienteId, setClienteId] = useState<number>(0);
+  const [idUsuarioCreador, setIdUsuarioCreador] = useState<number>(1);
   const [descripcion, setDescripcion] = useState<string>("");
-  const [fechaCreacion, setFechaCreacion] = useState<string>("");  
 
   const[clientes,setClientes] = useState<Cliente[]>([])
   const[ordersType,setOrdersType] = useState<TipoOrden[]>([])
 
   const[idTipoOrder,setSelectedOrderType] = useState<number | 0>(0)
   const[selectedClient,setSelectedClient] = useState<number | 0>(0);
+  const[fechaToma,setFechaToma] = useState<string>("");
+  const[fechaFinalizacion,setFechaFinalizacion] = useState<string>("");
 
+  //Fetch clientes
   useEffect(() => {
     const fetchClientes = async ()=>{
       try {
@@ -31,7 +39,7 @@ const FormularioOrden: React.FC = () => {
     };
     fetchClientes();
   },[]);
-
+  //Fetch tipos de ordenes
   useEffect(() => {
     // Fetch para obtener los tipos de orden
     const fetchTiposOrden = async () => {
@@ -45,15 +53,30 @@ const FormularioOrden: React.FC = () => {
     };
     fetchTiposOrden();
   },[]);
+  useEffect(() => {
+    if (orderId) {
+      axios.get(`http://localhost:8080/api/orders/${orderId}`)
+        .then(response => {
+          const order = response.data;
+          setSelectedClient(order.clienteId);
+          setDescripcion(order.descripcion);
+          setSelectedOrderType(order.idTipoOrden);
+          setFechaToma(order.fechaToma);
+          setFechaFinalizacion(order.fechaFinalizacion ? order.fechaFinalizacion : "");
+        })
+        .catch(error => {
+          console.error('Error al cargar la orden:', error);
+        });
+    }
+  }, []);
 
-// Mapeo de clientes a opciones para el select
+  // Mapeo de clientes a opciones para el select
 const clienteOptions = clientes.map(cliente => ({
   value: cliente.id,
   label: `${cliente.nombre} ${cliente.apellido}`
 }));
 const handleClienteChange = (selectedOption: any) => {
   setSelectedClient(selectedOption ? selectedOption.value : null);
-  setClienteId(selectedClient)
 };
 const ordersOptions = ordersType.map(orderType => ({
   value: orderType.id,
@@ -62,25 +85,29 @@ const ordersOptions = ordersType.map(orderType => ({
 const handleTypeChange = (selectedOption:any)=>{
   setSelectedOrderType(selectedOption ? selectedOption.value : null);
 }
+//Funcion SUBMIT
+const handleSubmit = (event: React.FormEvent) => {
+  event.preventDefault();
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setFechaCreacion(new Date().toISOString());
-    const nuevaOrden: Order = {
-      "clienteId": 1,
-      "idTipoOrden":idTipoOrder,
-      "descripcion": "Nueva Orden",
-      "fechaCreacion": fechaCreacion,
-      "idUsuarioCreador":1
-    };
-    console.log(nuevaOrden)
-    try {
-      const response = await axios.post('http://localhost:8080/api/orders', nuevaOrden);
-      console.log('Orden creada:', response.data);
-    } catch (error) {
-      console.error('Error al crear la orden:', error);
-    }
+  const orderData = {
+    selectedClient,
+    descripcion,
+    idTipoOrder,
+    fechaToma,
+    fechaFinalizacion,
   };
+
+  if (orderId) {
+    // Actualizar una orden existente (PUT)
+    axios.put(`http://localhost:8080/api/orders/${orderId}`, orderData)
+      .then(response => {
+        console.log('Orden actualizada:', response.data);
+      })
+      .catch(error => {
+        console.error('Error al cargar la orden:', error);
+      });
+    }
+  }
   return (
     <form onSubmit={handleSubmit} className="container mt-4">
       {/* Campo para el nombre del cliente */}
