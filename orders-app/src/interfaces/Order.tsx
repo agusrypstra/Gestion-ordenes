@@ -2,6 +2,6 @@ export interface Order {
     "clienteId": number;
     "idTipoOrden":  number;
     "descripcion":string;
-    "fechaCreacion": string;
-    "idUsuarioCreador":number
+    "idUsuarioCreador":number;
+    "status":string;
 }
